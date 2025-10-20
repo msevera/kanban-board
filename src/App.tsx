@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import './App.css'
 import { Column } from './components/Column';
 import { useAppContext } from './contexts/AppContext'
-import { DragDropContext } from '@hello-pangea/dnd';
+import { DragDropContext, type DropResult } from '@hello-pangea/dnd';
 import type { TaskType } from './types';
 import { Filter } from './components/Filter';
 
@@ -14,7 +14,7 @@ function App() {
     setActiveItem(draggableId)
   }, [activeItem]);
 
-  const onDragEndHandler = useCallback((result: { source: any; destination: any; }) => {
+  const onDragEndHandler = useCallback((result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination) {

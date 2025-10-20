@@ -1,23 +1,32 @@
 # Kanban board 
+
+### Tech Stack
+- React 19 + TypeScript + Vite
+- Tailwind CSS v4
+- Drag & drop: `@hello-pangea/dnd`
+
 ### Setup instructions
-1. run `npm install`
-2. run `npm run dev`
+- run `npm install`
+- run `npm run dev`
 
-### Brief notes
-#### State Management Architecture
-* Context + Reducer Pattern: Centralized state management using AppContext with useAppReducer
-* Separation of Concerns:
-  * useAppReducer: State logic with reducer pattern
-  * useLoadTasks: Data persistence layer (simulate API calls with localStorage)
-  * AppContext: Business logic orchestration
+### Features
+- Three columns: `ToDo`, `InProgress`, `Done`
+- Drag & drop within and across columns
+- Create tasks (title + optional description), inline edit titles
+- Global filter by title/description
+- localStorage persistence with simulated API delays
+- Loading/saving indicators and root error boundary
 
 
-#### Component Architecture
-* Container/Presentational Pattern:
-  * App.tsx: Main container with drag-drop logic
-  * Column.tsx: Column container managing task lists
-  * TaskComponent.tsx: Presentational task component
-* Composition over Inheritance: Small, focused components with clear responsibilities
+
+### Architecture (brief)
+- Context + Reducer: centralized state via `AppContext` and `useAppReducer`
+- Separation of concerns:
+  - `useAppReducer`: pure state/reducer logic
+  - `useLoadTasks`: persistence layer (simulated API via `localStorage`)
+  - `AppContext`: orchestration + optimistic updates
+- Filtering: centralized in context
+- Ordering: `orderIndex` computed as the mean between neighbors for stable reordering
 
 #### Data Dlow
 ```

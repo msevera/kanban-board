@@ -1,23 +1,31 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // 1️⃣ Base configs (TypeScript + React)
+  ...tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended, // 👈 no spread here!
+
+  // 2️⃣ Your project-specific overrides
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     languageOptions: {
-      ecmaVersion: 2020,
       globals: globals.browser,
     },
+    settings: {
+      react: {
+        version: "detect", // Auto-detect React version
+      },
+    },
+    plugins: {
+      react: pluginReact,
+    },
+    rules: {
+      // Disable outdated React rules (React 17+)
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "off",
+    },
   },
-])
+]);
